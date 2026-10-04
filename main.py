@@ -48,7 +48,7 @@ def get_time():
     now = datetime.now(pytz.timezone(timezone))
     hour = now.hour % 12
     emoji = time_texts.get(hour, "") if use_emoji else ""
-    return now.strftime("%H:%M"), emoji
+    digits=str.maketrans("0123456789", "𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿"); return now.strftime("%H:%M").translate(digits), emoji
 
 
 # ---------- Scheduler (safe interval control) ----------
