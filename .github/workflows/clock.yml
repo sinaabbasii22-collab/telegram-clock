@@ -1,9 +1,9 @@
 name: Telegram Clock
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *'
-  workflow_dispatch:
 
 jobs:
   clock:
@@ -26,10 +26,8 @@ jobs:
           SESSION_B64: ${{ secrets.SESSION_B64 }}
         run: |
           printf '%s' "$SESSION_B64" | base64 -d > session.session
-
           python - <<'PY'
           import json, os
-
           config = {
               "api_id": int(os.environ["API_ID"]),
               "api_hash": os.environ["API_HASH"],
@@ -41,11 +39,9 @@ jobs:
               "use_emoji": False,
               "safe_mode": True
           }
-
           with open("config.json", "w") as f:
               json.dump(config, f)
           PY
 
       - name: Run Telegram Clock
         run: timeout 210s python main.py || true
-ls -l .github/workflows/clock.yml
